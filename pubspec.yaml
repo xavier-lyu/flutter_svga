@@ -23,7 +23,7 @@ dependencies:
   http: ^1.6.0
   path_drawing: ^1.0.1
   protobuf: ^6.0.0
-  audioplayers: ^6.5.1
+  just_audio: ^0.10.5
   path_provider: ^2.1.5
   crypto: ^3.0.7
 
@@ -31,4 +31,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-

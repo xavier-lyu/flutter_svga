@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:crypto/crypto.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -42,7 +42,8 @@ class SVGAAudioLayer {
 
       try {
         _isReady = true;
-        await _player.play(DeviceFileSource(cacheFile.path));
+        await _player.setFilePath(cacheFile.path);
+        await _player.play();
         _isReady = false;
         // I noticed that this logic exists in the iOS code of SVGAPlayer
         // but it seems unnecessary.
@@ -61,7 +62,7 @@ class SVGAAudioLayer {
 
   void resumeAudio() {
     if (_disposed) return;
-    _player.resume();
+    _player.play();
   }
 
   void stopAudio() {
@@ -71,12 +72,12 @@ class SVGAAudioLayer {
 
   bool isPlaying() {
     if (_disposed) return false;
-    return _player.state == PlayerState.playing;
+    return _player.playerState.playing;
   }
 
   bool isPaused() {
     if (_disposed) return false;
-    return _player.state == PlayerState.paused;
+    return !_player.playerState.playing;
   }
 
   Future<void> dispose() async {
