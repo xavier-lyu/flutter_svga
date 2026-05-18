@@ -2,7 +2,7 @@
 //  source: svga.proto
 //
 // @dart = '3.7.2'
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,no_leading_underscores_for_local_identifiers
 
 import 'dart:core' as $core;
 import 'dart:core' show int, bool, double, String, List, Map, override;
@@ -2162,6 +2162,21 @@ class MovieEntity extends $pb.GeneratedMessage {
   Map<String, ui.Image> bitmapCache = {};
   Map<String, ui.Path> pathCache = {};
   Map<String, Uint8List> audiosData = {};
+  bool _memoryReleased = false;
+
+  /// Releases protobuf internal structures to reduce memory usage.
+  /// Call this after parsing is complete and all resources have been prepared.
+  /// After calling, the raw `images` data is cleared (already processed into
+  /// `bitmapCache` and `audiosData`).
+  void releaseMemory() {
+    if (_memoryReleased) return;
+    _memoryReleased = true;
+    // Clear the raw images map - data already extracted to bitmapCache/audiosData
+    images.clear();
+  }
+
+  /// Returns true if memory has been released.
+  bool get isMemoryReleased => _memoryReleased;
 
   void dispose() {
     bitmapCache.values.forEach((element) {
